@@ -6,7 +6,7 @@ import {Attandance, Oops, Off} from '../../assets';
 import Button from '../components/Button';
 import NfcManager from 'react-native-nfc-manager';
 
-export default function HomeScreen(props) {
+export default function HomeScreen() {
   const navigation = useNavigation();
   const [hasNfc, setHasNfc] = useState(null);
   const [isEnabled, setIsEnabled] = useState(null);
@@ -16,6 +16,7 @@ export default function HomeScreen(props) {
       const supported = await NfcManager.isSupported();
       if (supported) {
         await NfcManager.start();
+        setIsEnabled(await NfcManager.isEnabled());
       }
       setHasNfc(supported);
     };
@@ -81,34 +82,34 @@ export default function HomeScreen(props) {
         </TouchableOpacity>
       </View>
     );
-  }
-
-  return (
-    <SafeAreaView
-      style={{
-        backgroundColor: 'white',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <Attandance />
-      <Text
+  } else {
+    return (
+      <SafeAreaView
         style={{
-          fontSize: 20,
-          fontWeight: '600',
-          marginTop: 30,
-          marginBottom: 30,
+          backgroundColor: 'white',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
-        Absensi Online
-      </Text>
-      <Button theme="primary" label="Absen Siswa" />
-      <Button
-        theme="secondary"
-        label="Login Admin"
-        onPress={() => navigation.navigate('Login')}
-      />
-    </SafeAreaView>
-  );
+        <Attandance />
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: '600',
+            marginTop: 30,
+            marginBottom: 30,
+          }}>
+          Absensi Online
+        </Text>
+        <Button theme="primary" label="Absen Siswa" />
+        <Button
+          theme="secondary"
+          label="Login Admin"
+          onPress={() => navigation.navigate('Login')}
+        />
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create([]);
