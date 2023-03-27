@@ -2,17 +2,20 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 function DashboardScreen() {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Write Tag')}>
         <View style={styles.cardContainer}>
           <MaterialCommunityIcon name="nfc" size={40} color="white" />
           <Text style={styles.textStyle}>Tulis</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Read Tag')}>
         <View style={styles.cardContainer1}>
           <MaterialCommunityIcon
             name="smart-card-reader"
@@ -52,8 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'center',
-    flexDirection: 'row',
     flexWrap: 'wrap',
     paddingTop: 20,
   },

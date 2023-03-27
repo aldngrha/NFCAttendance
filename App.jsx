@@ -7,6 +7,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './src/components/CustomDrawer';
+import WriteTagScreen from './src/screens/WriteTagScreen';
+import ReadTagScreen from './src/screens/ReadTagScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -15,6 +17,8 @@ function DrawerDashboard() {
   return (
     <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
       <Drawer.Screen name="Dashboard Admin" component={DashboardScreen} />
+      <Drawer.Screen name="Write Tag" component={WriteTagScreen} />
+      <Drawer.Screen name="Read Tag" component={ReadTagScreen} />
     </Drawer.Navigator>
   );
 }

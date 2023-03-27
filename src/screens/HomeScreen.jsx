@@ -1,11 +1,87 @@
 import {useNavigation} from '@react-navigation/native';
-import {View, StyleSheet, Image, Text, Pressable} from 'react-native';
+import {useEffect, useRef, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Attandance} from '../../assets';
+import {Attandance, Oops, Off} from '../../assets';
 import Button from '../components/Button';
+import NfcManager from 'react-native-nfc-manager';
 
-export default function HomeScreen() {
+export default function HomeScreen(props) {
   const navigation = useNavigation();
+  const [hasNfc, setHasNfc] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(null);
+
+  useEffect(() => {
+    const checkNfc = async () => {
+      const supported = await NfcManager.isSupported();
+      if (supported) {
+        await NfcManager.start();
+      }
+      setHasNfc(supported);
+    };
+
+    checkNfc();
+  }, []);
+
+  if (hasNfc === null) {
+    return null;
+  } else if (!hasNfc) {
+    return (
+      <View
+        style={{
+          backgroundColor: 'white',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Oops />
+        <Text style={{marginTop: 25}}>
+          Maaf, perangkat kamu tidak mendukung fitur NFC
+        </Text>
+      </View>
+    );
+  } else if (!isEnabled) {
+    return (
+      <View
+        style={{
+          backgroundColor: 'white',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Off />
+        <Text style={{marginTop: 25}}>
+          Aktifkan fitur NFC kamu terlebih dahulu
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            NfcManager.goToNfcSetting();
+          }}
+          style={{
+            backgroundColor: '#6C63FF',
+            paddingHorizontal: 75,
+            paddingVertical: 15,
+            borderRadius: 15,
+            marginVertical: 15,
+          }}>
+          <Text style={{color: 'white'}}>Pergi ke pengaturan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={async () => {
+            setIsEnabled(await NfcManager.isEnabled());
+          }}
+          style={{
+            borderWidth: 1,
+            borderRadius: 15,
+            paddingHorizontal: 103,
+            paddingVertical: 15,
+            borderColor: '#6C63FF',
+          }}>
+          <Text style={{color: '#6C63FF'}}>Cek Ulang</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView
