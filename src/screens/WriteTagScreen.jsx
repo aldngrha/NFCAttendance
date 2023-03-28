@@ -42,6 +42,8 @@ const WriteTagScreen = () => {
       if (bytes) {
         await NfcManager.ndefHandler.writeNdefMessage(bytes);
         Alert.alert('Sukses', 'Data berhasil ditulis ke NFC tag');
+        setNama('');
+        setKelas('');
         androidPromptRef.current.setVisible(false);
       }
     } catch (ex) {
