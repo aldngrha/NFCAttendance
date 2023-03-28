@@ -10,6 +10,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import NfcManager, {Ndef, NfcEvents, NfcTech} from 'react-native-nfc-manager';
 import Button from '../components/Button';
 import Prompt from '../components/Prompt';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const validateInput = (nama, kelas) => {
   if (!nama && !kelas) {
@@ -19,11 +20,16 @@ const validateInput = (nama, kelas) => {
   return true;
 };
 
-const WriteTagScreen = () => {
+const UpdateTagScreen = () => {
   const androidPromptRef = useRef();
+  const navigation = useNavigation();
 
-  const [nama, setNama] = useState('');
-  const [kelas, setKelas] = useState('');
+  const route = useRoute();
+
+  const {name, kelass} = route.params;
+
+  const [nama, setNama] = useState(name || '');
+  const [kelas, setKelas] = useState(kelass || '');
 
   const handleSubmit = async () => {
     // Menyimpan input dari user ke dalam state
@@ -41,8 +47,15 @@ const WriteTagScreen = () => {
 
       if (bytes) {
         await NfcManager.ndefHandler.writeNdefMessage(bytes);
-        Alert.alert('Sukses', 'Data berhasil ditulis ke NFC tag');
-        androidPromptRef.current.setVisible(false);
+        Alert.alert('Sukses', 'Data dalam tag NFC berhasil diubah', [
+          {
+            text: 'OK',
+            onPress: () => {
+              androidPromptRef.current.setVisible(false);
+              navigation.goBack();
+            },
+          },
+        ]);
       }
     } catch (ex) {
       console.warn(ex);
@@ -100,7 +113,7 @@ const WriteTagScreen = () => {
   );
 };
 
-export default WriteTagScreen;
+export default UpdateTagScreen;
 
 const styles = StyleSheet.create({
   container: {

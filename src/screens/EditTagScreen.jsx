@@ -3,13 +3,18 @@ import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Button from '../components/Button';
 import Prompt from '../components/Prompt';
 import NfcManager, {NfcEvents, NfcTech, Ndef} from 'react-native-nfc-manager';
-import {useFocusEffect} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
-const ReadTagScreen = () => {
+const EditTagScreen = () => {
   const androidPromptRef = useRef();
+  const navigation = useNavigation();
 
-  const [nama, setNama] = useState('');
-  const [kelas, setKelas] = useState('');
+  const [name, setName] = useState('');
+  const [kelass, setKelass] = useState('');
   const [isDataAvailable, setIsDataAvailable] = useState(false); // Tambahkan state baru
 
   const handleRead = async () => {
@@ -22,9 +27,9 @@ const ReadTagScreen = () => {
           const name = Ndef.text.decodePayload(bytes);
           const byte = tag.ndefMessage[1].payload;
           const kelas = Ndef.text.decodePayload(byte);
+          setName(name);
+          setKelass(kelas);
           setIsDataAvailable(true);
-          setNama(name);
-          setKelas(kelas);
           Alert.alert('Sukses', 'Data berhasil dibaca dari NFC tag');
           androidPromptRef.current.setVisible(false);
         } else {
@@ -47,6 +52,10 @@ const ReadTagScreen = () => {
     await handleRead();
   };
 
+  const handleEdit = () => {
+    navigation.navigate('Update Data', {name, kelass});
+  };
+
   useFocusEffect(
     useCallback(() => {
       return () => {
@@ -61,9 +70,9 @@ const ReadTagScreen = () => {
         {isDataAvailable ? (
           <>
             <Text style={{marginBottom: 10, color: 'black'}}>
-              Nama Lengkap : {nama}
+              Nama Lengkap : {name}
             </Text>
-            <Text style={{color: 'black'}}>Kelas : {kelas}</Text>
+            <Text style={{color: 'black'}}>Kelas : {kelass}</Text>
           </>
         ) : (
           <Text
@@ -76,7 +85,12 @@ const ReadTagScreen = () => {
           </Text>
         )}
       </View>
-      <Button theme="primary" label="Scan Tag" onPress={scanTag} />
+      {isDataAvailable}
+      <Button
+        theme="primary"
+        label={isDataAvailable ? 'Edit Tag' : 'Scan Tag'}
+        onPress={isDataAvailable ? handleEdit : scanTag}
+      />
       <Prompt
         ref={androidPromptRef}
         onCancelPress={() => {
@@ -87,7 +101,7 @@ const ReadTagScreen = () => {
   );
 };
 
-export default ReadTagScreen;
+export default EditTagScreen;
 
 const styles = StyleSheet.create({
   sectionContainer: {

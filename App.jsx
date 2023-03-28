@@ -9,6 +9,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './src/components/CustomDrawer';
 import WriteTagScreen from './src/screens/WriteTagScreen';
 import ReadTagScreen from './src/screens/ReadTagScreen';
+import EditTagScreen from './src/screens/EditTagScreen';
+import UpdateTagScreen from './src/screens/UpdateDataScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -19,6 +21,7 @@ function DrawerDashboard() {
       <Drawer.Screen name="Dashboard Admin" component={DashboardScreen} />
       <Drawer.Screen name="Write Tag" component={WriteTagScreen} />
       <Drawer.Screen name="Read Tag" component={ReadTagScreen} />
+      <Drawer.Screen name="Edit Tag" component={EditTagScreen} />
     </Drawer.Navigator>
   );
 }
@@ -40,6 +43,11 @@ export default function App() {
         <Stack.Screen
           name="Dashboard"
           component={DrawerDashboard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Update Data"
+          component={UpdateTagScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -25,7 +25,7 @@ function DashboardScreen() {
           <Text style={styles.textStyle}>Baca</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Edit Tag')}>
         <View style={styles.cardContainer2}>
           <MaterialCommunityIcon
             name="square-edit-outline"
