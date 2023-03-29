@@ -11,6 +11,9 @@ import WriteTagScreen from './src/screens/WriteTagScreen';
 import ReadTagScreen from './src/screens/ReadTagScreen';
 import EditTagScreen from './src/screens/EditTagScreen';
 import UpdateTagScreen from './src/screens/UpdateDataScreen';
+import ScanScreen from './src/screens/ScanScreen';
+import SuccessScreen from './src/screens/SuccessScreen';
+import ReadDataScreen from './src/screens/ReadDataScreen';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,6 +25,7 @@ function DrawerDashboard() {
       <Drawer.Screen name="Write Tag" component={WriteTagScreen} />
       <Drawer.Screen name="Read Tag" component={ReadTagScreen} />
       <Drawer.Screen name="Edit Tag" component={EditTagScreen} />
+      <Drawer.Screen name="Absensi Siswa" component={ReadDataScreen} />
     </Drawer.Navigator>
   );
 }
@@ -34,6 +38,16 @@ export default function App() {
           options={{headerShown: false}}
           name="Home"
           component={HomeScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Scan"
+          component={ScanScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Success"
+          component={SuccessScreen}
         />
         <Stack.Screen
           options={{headerShown: false}}

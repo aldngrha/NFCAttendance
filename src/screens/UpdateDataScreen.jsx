@@ -102,7 +102,7 @@ const UpdateTagScreen = () => {
           onChangeText={text => setKelas(text)}
         />
       </View>
-      <Button theme="primary" label="Tulis tag" onPress={handleScanTag} />
+      <Button theme="primary" label="Perbarui tag" onPress={handleScanTag} />
       <Prompt
         ref={androidPromptRef}
         onCancelPress={() => {

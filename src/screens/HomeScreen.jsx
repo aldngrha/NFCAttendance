@@ -101,7 +101,11 @@ export default function HomeScreen() {
           }}>
           Absensi Online
         </Text>
-        <Button theme="primary" label="Absen Siswa" />
+        <Button
+          theme="primary"
+          label="Absen Siswa"
+          onPress={() => navigation.navigate('Scan')}
+        />
         <Button
           theme="secondary"
           label="Login Admin"
