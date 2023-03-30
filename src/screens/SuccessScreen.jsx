@@ -12,15 +12,6 @@ const SuccessScreen = () => {
   const {tanggal, nama_lengkap, kelas, waktu_scan, status_absen} =
     route.params.data;
 
-  const date = new Date(tanggal);
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  const formattedDate = date.toLocaleDateString('id-ID', options);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.beforeCard}>
@@ -28,7 +19,7 @@ const SuccessScreen = () => {
         <MaterialCommunityIcon name="check-circle" size={25} color="#6C63FF" />
       </View>
       <View style={styles.card}>
-        <Text style={styles.text}>Hari, Tanggal : {formattedDate}</Text>
+        <Text style={styles.text}>Hari, Tanggal : {tanggal}</Text>
         <Text style={styles.text}>Nama Lengkap : {nama_lengkap}</Text>
         <Text style={styles.text}>Kelas : {kelas}</Text>
         <Text style={styles.text}>Waktu Scan : {waktu_scan}</Text>

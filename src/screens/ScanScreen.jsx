@@ -37,8 +37,18 @@ const ScanScreen = () => {
           );
           const scanHour = new Date(timestamp).getHours();
           const status = scanHour >= 7 ? 'Terlambat' : 'Tepat waktu';
+
+          const date = new Date(timestamp);
+          const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          };
+          const formattedDate = date.toLocaleDateString('id-ID', options);
+
           const data = {
-            tanggal: timestamp,
+            tanggal: formattedDate,
             nama_lengkap: name,
             kelas: kelas,
             waktu_scan: time,
@@ -74,10 +84,10 @@ const ScanScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
       <Sync />
       <Text style={styles.text}>Scan kartu untuk absen</Text>
       <Button theme="primary" label="Scan Tag" onPress={scanTag} />
-      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
       <Prompt
         ref={androidPromptRef}
         onCancelPress={() => {
